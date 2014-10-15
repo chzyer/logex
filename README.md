@@ -1,5 +1,7 @@
 GoLogex
 =======
+[![Build Status](https://api.travis-ci.org/chzyer/gologex.png?branch=master)](https://travis-ci.org/chzyer/gologex)
+
 
 An golang log lib, supports tracking and level, wrap by standard log lib
 
