@@ -3,6 +3,7 @@ package logex
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	goLog "log"
 	"os"
 	"path"
@@ -14,17 +15,25 @@ import (
 var DebugLevel = 1
 
 type Logger struct {
-	depth int
-	reqid string
+	depth  int
+	reqid  string
+	Logger *goLog.Logger
 }
 
-func NewLogger(l int) Logger {
-	return Logger{l, ""}
+func NewLogger(l int) *Logger {
+	return &Logger{l, "", goLogStd}
+}
+
+func NewLoggerEx(w io.Writer) *Logger {
+	return &Logger{0, "", NewGoLog(w)}
+}
+
+func NewGoLog(w io.Writer) *goLog.Logger {
+	return goLog.New(w, "", goLog.LstdFlags)
 }
 
 var goLogStd = goLog.New(os.Stderr, "", goLog.LstdFlags)
-var std = Logger{1, ""}
-var Std = Logger{1, ""}
+var std = NewLogger(1)
 var (
 	Println    = std.Println
 	Infof      = std.Infof
@@ -41,9 +50,26 @@ var (
 	Todo       = std.Todo
 )
 
+func SetStd(l *Logger) {
+	std = l
+	Println = std.Println
+	Infof = std.Infof
+	Info = std.Info
+	Debug = std.Debug
+	Error = std.Error
+	Warn = std.Warn
+	PrintStack = std.PrintStack
+	Stack = std.Stack
+	Panic = std.Panic
+	Fatal = std.Fatal
+	Struct = std.Struct
+	Pretty = std.Pretty
+	Todo = std.Todo
+}
+
 var (
 	INFO   = "[INFO] "
-	ERROR  = "[\x1b[0;35mERROR\x1b[0m] "
+	ERROR  = "[" + color("", "ERROR") + "] "
 	PANIC  = "[PANIC] "
 	DEBUG  = "[DEBUG] "
 	WARN   = "[WARN] "
@@ -54,6 +80,9 @@ var (
 )
 
 func color(col, s string) string {
+	if col == "" {
+		return s
+	}
 	return "\x1b[0;" + col + "m" + s + "\x1b[0m"
 }
 
@@ -68,7 +97,7 @@ func D(i int) Logger {
 }
 
 func (l Logger) D(i int) Logger {
-	return Logger{l.depth + i, l.reqid}
+	return Logger{l.depth + i, l.reqid, l.Logger}
 }
 
 // Pretty ----------------------------------------------------------------------
@@ -195,7 +224,10 @@ func (l Logger) Stack() []byte {
 
 func (l Logger) Output(calldepth int, s string) error {
 	calldepth += l.depth + 1
-	return goLogStd.Output(calldepth, l.makePrefix(calldepth)+s)
+	if l.Logger == nil {
+		l.Logger = goLogStd
+	}
+	return l.Logger.Output(calldepth, l.makePrefix(calldepth)+s)
 }
 
 func (l Logger) makePrefix(calldepth int) string {
