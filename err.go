@@ -11,7 +11,7 @@ import (
 )
 
 func NewError(info string, format ...interface{}) *TrackError {
-	err := errors.New(fmt.Sprintf(info, format...))
+	err := fmt.Errorf(info, format...)
 	return &TrackError{
 		error: err,
 	}

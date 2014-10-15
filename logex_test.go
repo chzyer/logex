@@ -42,7 +42,7 @@ func TestLogex(t *testing.T) {
 	test(buf)
 	ret := buf.String()
 
-	println("\n--------\n", ret)
+	println("--------\n", ret)
 
 	except := []string{
 		".test:logex_test.go:19]aa",
