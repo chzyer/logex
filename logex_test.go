@@ -45,11 +45,11 @@ func TestLogex(t *testing.T) {
 	println("\n--------\n", ret)
 
 	except := []string{
-		"[logex.test:logex_test.go:19]aa",
-		"[logex.test:logex_test.go:20][INFO] b",
-		"[logex.test:logex_test.go:21][INFO] c",
-		"[logex.test:logex_test.go:22][ERROR] ec",
-		"[logex.(*S).hello:logex_test.go:11][WARN] warn in hello",
+		".test:logex_test.go:19]aa",
+		".test:logex_test.go:20][INFO] b",
+		".test:logex_test.go:21][INFO] c",
+		".test:logex_test.go:22][ERROR] ec",
+		".(*S).hello:logex_test.go:11][WARN] warn in hello",
 	}
 
 	for _, e := range except {
