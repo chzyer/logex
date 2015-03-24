@@ -1,7 +1,7 @@
 GoLogex
 =======
-[![Build Status](https://travis-ci.org/chzyer/gologex.svg?branch=master)](https://travis-ci.org/chzyer/gologex)
-[![GoDoc](https://godoc.org/github.com/chzyer/gologex?status.svg)](https://godoc.org/github.com/chzyer/gologex)
+[![Build Status](https://travis-ci.org/chzyer/gologex.svg?branch=master)](https://travis-ci.org/go-logex/logex)
+[![GoDoc](https://godoc.org/gopkg.in/logex.v1?status.svg)](https://godoc.org/gopkg.in/logex.v1)
 
 
 An golang log lib, supports tracking and level, wrap by standard log lib
@@ -10,12 +10,12 @@ How To Get
 =======
 shell
 ```
-go get gopkg.in/logex
+go get gopkg.in/logex.v1
 ```
 
 source code
 ```{go}
-import "gopkg.in/logex" // package name is logex
+import "gopkg.in/logex.v1" // package name is logex
 
 func main() {
   logex.Info("Hello!")
@@ -26,7 +26,7 @@ Level
 =======
 
 ```{go}
-import "gopkg.in/logex"
+import "gopkg.in/logex.v1"
 
 func main() {
   logex.Println("")
@@ -71,7 +71,7 @@ All log will attach theirs stack info. Stack Info will shown by an layout, `{pac
 ```{go}
 package main
 
-import "gopkg.in/logex"
+import "gopkg.in/logex.v1"
 
 func test() {
 	logex.Pretty("hello")
@@ -95,7 +95,7 @@ You can track an error if you want.
 package main
 
 import (
-	"gopkg.in/logex"
+	"gopkg.in/logex.v1"
 	"os"
 )
 
