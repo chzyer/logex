@@ -10,12 +10,12 @@ How To Get
 =======
 shell
 ```
-go get github.com/chzyer/gologex
+go get gopkg.in/logex
 ```
 
 source code
 ```{go}
-import "github.com/chzyer/gologex" // package name is logex
+import "gopkg.in/logex" // package name is logex
 
 func main() {
   logex.Info("Hello!")
@@ -26,7 +26,7 @@ Level
 =======
 
 ```{go}
-import "github.com/chzyer/gologex"
+import "gopkg.in/logex"
 
 func main() {
   logex.Println("")
@@ -71,7 +71,7 @@ All log will attach theirs stack info. Stack Info will shown by an layout, `{pac
 ```{go}
 package main
 
-import "github.com/chzyer/gologex"
+import "gopkg.in/logex"
 
 func test() {
 	logex.Pretty("hello")
@@ -95,7 +95,7 @@ You can track an error if you want.
 package main
 
 import (
-	"github.com/chzyer/gologex"
+	"gopkg.in/logex"
 	"os"
 )
 
