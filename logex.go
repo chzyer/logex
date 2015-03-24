@@ -1,4 +1,4 @@
-package logex
+package logex // gopkg.in/logex.v1
 
 import (
 	"encoding/json"
