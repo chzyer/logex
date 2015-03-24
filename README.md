@@ -1,6 +1,6 @@
 GoLogex
 =======
-[![Build Status](https://travis-ci.org/chzyer/gologex.svg?branch=master)](https://travis-ci.org/go-logex/logex)
+[![Build Status](https://travis-ci.org/chzyer/gologex.svg?branch=master)](https://travis-ci.org/chzyer/gologex)
 [![GoDoc](https://godoc.org/gopkg.in/logex.v1?status.svg)](https://godoc.org/gopkg.in/logex.v1)
 
 
