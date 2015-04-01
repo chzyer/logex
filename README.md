@@ -1,4 +1,4 @@
-GoLogex
+Logex
 =======
 [![Build Status](https://travis-ci.org/go-logex/logex.svg?branch=master)](https://travis-ci.org/go-logex/logex)
 [![GoDoc](https://godoc.org/gopkg.in/logex.v1?status.svg)](https://godoc.org/gopkg.in/logex.v1)
