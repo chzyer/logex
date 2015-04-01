@@ -247,17 +247,17 @@ func (l Logger) makePrefix(calldepth int) string {
 }
 
 func sprint(o []interface{}) string {
-	decodeTrackError(o)
+	decodeTraceError(o)
 	return joinInterface(o, " ")
 }
 func sprintf(f string, o []interface{}) string {
-	decodeTrackError(o)
+	decodeTraceError(o)
 	return fmt.Sprintf(f, o...)
 }
 
-func decodeTrackError(o []interface{}) {
+func decodeTraceError(o []interface{}) {
 	for idx, obj := range o {
-		if te, ok := obj.(*TrackError); ok {
+		if te, ok := obj.(*TraceError); ok {
 			o[idx] = te.StackError()
 		}
 	}
