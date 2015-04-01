@@ -18,10 +18,14 @@ func a() error {
 func TestError(t *testing.T) {
 	te := Trace(a())
 	errInfo := te.StackError()
-	if strings.Contains(errInfo, "logex%2ev1.b:11") &&
-		strings.Contains(errInfo, "logex%2ev1.a:15") &&
-		strings.Contains(errInfo, "logex%2ev1.TestError:19") {
-	} else {
-		t.Error("fail", te.StackError())
+	prefixes := []string{"logex%2ev1", "logex"}
+	for _, p := range prefixes {
+		if strings.Contains(errInfo, p+".b:11") &&
+			strings.Contains(errInfo, p+".a:15") &&
+			strings.Contains(errInfo, p+".TestError:19") {
+			return
+		}
 	}
+
+	t.Error("fail", te.StackError())
 }

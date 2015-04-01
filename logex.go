@@ -69,14 +69,14 @@ func SetStd(l *Logger) {
 
 var (
 	INFO   = "[INFO] "
-	ERROR  = "[" + color("", "ERROR") + "] "
+	ERROR  = "[ERROR] "
 	PANIC  = "[PANIC] "
 	DEBUG  = "[DEBUG] "
 	WARN   = "[WARN] "
 	FATAL  = "[FATAL] "
 	STRUCT = "[STRUCT] "
 	PRETTY = "[PRETTY] "
-	TODO   = "[" + color("35", "TODO") + "] "
+	TODO   = "[TODO] "
 )
 
 func color(col, s string) string {
@@ -92,40 +92,40 @@ func init() {
 	}
 }
 
-func D(i int) Logger {
-	return std.D(i - 1)
+func DownLevel(i int) Logger {
+	return std.DownLevel(i - 1)
 }
 
-func (l Logger) D(i int) Logger {
+// decide to show which level's stack
+func (l Logger) DownLevel(i int) Logger {
 	return Logger{l.depth + i, l.reqid, l.Logger}
 }
 
-// Pretty ----------------------------------------------------------------------
-
+// output objects to json format
 func (l Logger) Pretty(os ...interface{}) {
 	content := ""
-	colors := []string{"31", "32", "33", "35"}
-	for i, o := range os {
-		if ret, err := json.MarshalIndent(o, "", "\t"); err == nil {
-			content += color(colors[i%len(colors)], string(ret)) + "\n"
+	for i := range os {
+		if ret, err := json.MarshalIndent(os[i], "", "\t"); err == nil {
+			content += string(ret) + "\n"
 		}
 	}
 	l.Output(2, PRETTY+content)
 }
 
-// Print -----------------------------------------------------------------------
-
+// just print
 func (l Logger) Print(o ...interface{}) {
 	l.Output(2, sprint(o))
 }
+
+// just print by format
 func (l Logger) Printf(layout string, o ...interface{}) {
 	l.Output(2, sprintf(layout, o))
 }
+
+// just println
 func (l Logger) Println(o ...interface{}) {
 	l.Output(2, sprint(o))
 }
-
-// Info ------------------------------------------------------------------------
 
 func (l Logger) Info(o ...interface{}) {
 	l.Output(2, INFO+sprint(o))
@@ -134,14 +134,13 @@ func (l Logger) Infof(f string, o ...interface{}) {
 	l.Output(2, INFO+sprintf(f, o))
 }
 
-// Debug -----------------------------------------------------------------------
-
 func (l Logger) Debug(o ...interface{}) {
 	if DebugLevel > 0 {
 		return
 	}
 	l.Output(2, DEBUG+sprint(o))
 }
+
 func (l Logger) Debugf(f string, o ...interface{}) {
 	if DebugLevel > 0 {
 		return
@@ -149,22 +148,17 @@ func (l Logger) Debugf(f string, o ...interface{}) {
 	l.Output(2, DEBUG+sprintf(f, o))
 }
 
-// Todo ------------------------------------------------------------------------
-
 func (l Logger) Todo(o ...interface{}) {
 	l.Output(2, TODO+sprint(o))
 }
 
-// Error -----------------------------------------------------------------------
-
 func (l Logger) Error(o ...interface{}) {
 	l.Output(2, ERROR+sprint(o))
 }
+
 func (l Logger) Errorf(f string, o ...interface{}) {
 	l.Output(2, ERROR+sprintf(f, o))
 }
-
-// Warn ------------------------------------------------------------------------
 
 func (l Logger) Warn(o ...interface{}) {
 	l.Output(2, WARN+sprint(o))
@@ -172,8 +166,6 @@ func (l Logger) Warn(o ...interface{}) {
 func (l Logger) Warnf(f string, o ...interface{}) {
 	l.Output(2, WARN+sprintf(f, o))
 }
-
-// Panic -----------------------------------------------------------------------
 
 func (l Logger) Panic(o ...interface{}) {
 	l.Output(2, PANIC+sprint(o))
@@ -185,18 +177,15 @@ func (l Logger) Panicf(f string, o ...interface{}) {
 	panic(info)
 }
 
-// Fatal -----------------------------------------------------------------------
-
 func (l Logger) Fatal(o ...interface{}) {
 	l.Output(2, FATAL+sprint(o))
 	os.Exit(1)
 }
+
 func (l Logger) Fatalf(f string, o ...interface{}) {
 	l.Output(2, FATAL+sprintf(f, o))
 	os.Exit(1)
 }
-
-// Struct ----------------------------------------------------------------------
 
 func (l Logger) Struct(o ...interface{}) {
 	items := make([]interface{}, 0, len(o)*2)
@@ -209,8 +198,6 @@ func (l Logger) Struct(o ...interface{}) {
 	}
 	l.Output(2, STRUCT+sprintf(layout, items))
 }
-
-// Stack -----------------------------------------------------------------------
 
 func (l Logger) PrintStack() {
 	Info(string(l.Stack()))
