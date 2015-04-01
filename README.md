@@ -1,10 +1,10 @@
 GoLogex
 =======
-[![Build Status](https://travis-ci.org/chzyer/gologex.svg?branch=master)](https://travis-ci.org/chzyer/gologex)
+[![Build Status](https://travis-ci.org/go-logex/logex.svg?branch=master)](https://travis-ci.org/go-logex/logex)
 [![GoDoc](https://godoc.org/gopkg.in/logex.v1?status.svg)](https://godoc.org/gopkg.in/logex.v1)
 
 
-An golang log lib, supports tracking and level, wrap by standard log lib
+An golang log lib, supports tracing and level, wrap by standard log lib
 
 How To Get
 =======
@@ -64,7 +64,7 @@ func main() {
 }
 ```
 
-Runtime Tracking
+Runtime Tracing
 ======
 All log will attach theirs stack info. Stack Info will shown by an layout, `{packageName}.{FuncName}:{FileName}:{FileLine}`
 
@@ -87,9 +87,9 @@ response
 2014/10/10 15:17:14 [main.test:testlog.go:6][PRETTY] "hello"
 ```
 
-Error Tracking
+Error Tracing
 ======
-You can track an error if you want.
+You can trace an error if you want.
 
 ```{go}
 package main
@@ -102,7 +102,7 @@ import (
 func openfile() (*os.File, error) {
 	f, err := os.Open("xxx")
 	if err != nil {
-		err = logex.Track(err)
+		err = logex.Trace(err)
 	}
 	return f, err
 }
@@ -110,7 +110,7 @@ func openfile() (*os.File, error) {
 func test() error {
 	f, err := openfile()
 	if err != nil {
-		return logex.Track(err)
+		return logex.Trace(err)
 	}
 	f.Close()
 	return nil
