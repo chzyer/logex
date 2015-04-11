@@ -87,6 +87,13 @@ func Trace(err error, info ...interface{}) *TraceError {
 	return TraceEx(1, err, info...)
 }
 
+func TraceIfError(err error, info ...interface{}) error {
+	if err != nil {
+		return Trace(err, info...)
+	}
+	return nil
+}
+
 func joinInterface(info []interface{}, ch string) string {
 	ret := bytes.NewBuffer(make([]byte, 0, 512))
 	for idx, o := range info {
