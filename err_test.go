@@ -16,7 +16,7 @@ func a() error {
 }
 
 func TestError(t *testing.T) {
-	te := Trace(a())
+	te := TraceError(a())
 	errInfo := te.StackError()
 	prefixes := []string{"logex%2ev1", "logex"}
 	for _, p := range prefixes {

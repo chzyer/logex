@@ -1,4 +1,4 @@
-package logex // gopkg.in/logex.v1
+package logex
 
 import (
 	"encoding/json"
@@ -40,6 +40,7 @@ var (
 	Info       = std.Info
 	Debug      = std.Debug
 	Error      = std.Error
+	Errorf     = std.Errorf
 	Warn       = std.Warn
 	PrintStack = std.PrintStack
 	Stack      = std.Stack
@@ -244,7 +245,7 @@ func sprintf(f string, o []interface{}) string {
 
 func decodeTraceError(o []interface{}) {
 	for idx, obj := range o {
-		if te, ok := obj.(*TraceError); ok {
+		if te, ok := obj.(*traceError); ok {
 			o[idx] = te.StackError()
 		}
 	}

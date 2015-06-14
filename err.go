@@ -10,32 +10,39 @@ import (
 	"strings"
 )
 
-func NewError(info string, format ...interface{}) *TraceError {
-	err := fmt.Errorf(info, format...)
-	return &TraceError{
-		error: err,
+func Define(info string) *traceError {
+	return &traceError{
+		error: errors.New(info),
 	}
 }
 
-func Is(e1, e2 error) bool {
-	if e, ok := e1.(*TraceError); ok {
+func NewError(info ...interface{}) *traceError {
+	return TraceEx(1, errors.New(fmt.Sprint(info...)))
+}
+
+func NewErrorf(format string, info ...interface{}) *traceError {
+	return TraceEx(1, fmt.Errorf(format, info...))
+}
+
+func Equal(e1, e2 error) bool {
+	if e, ok := e1.(*traceError); ok {
 		e1 = e.error
 	}
-	if e, ok := e2.(*TraceError); ok {
+	if e, ok := e2.(*traceError); ok {
 		e2 = e.error
 	}
 	return e1 == e2
 }
 
-type TraceError struct {
+type traceError struct {
 	error
 	format []interface{}
 	stack  []string
 }
 
-func (t *TraceError) Error() string {
+func (t *traceError) Error() string {
 	if t == nil {
-		return "<NILTraceErr>"
+		return "<nil>"
 	}
 	if t.format == nil {
 		if t.error == nil {
@@ -46,11 +53,11 @@ func (t *TraceError) Error() string {
 	return fmt.Sprintf(t.error.Error(), t.format...)
 }
 
-func (t *TraceError) Follow(err error) *TraceError {
+func (t *traceError) Follow(err error) *traceError {
 	if t == nil {
 		return nil
 	}
-	if te, ok := err.(*TraceError); ok {
+	if te, ok := err.(*traceError); ok {
 		if len(te.stack) > 0 {
 			te.stack[len(te.stack)-1] += ":" + err.Error()
 		}
@@ -59,7 +66,7 @@ func (t *TraceError) Follow(err error) *TraceError {
 	return t
 }
 
-func (t *TraceError) Format(obj ...interface{}) *TraceError {
+func (t *traceError) Format(obj ...interface{}) *traceError {
 	if t == nil {
 		return nil
 	}
@@ -67,7 +74,7 @@ func (t *TraceError) Format(obj ...interface{}) *TraceError {
 	return t
 }
 
-func (t *TraceError) StackError() string {
+func (t *traceError) StackError() string {
 	if t == nil {
 		return t.Error()
 	}
@@ -77,21 +84,21 @@ func (t *TraceError) StackError() string {
 	return fmt.Sprintf("[%s] %s", strings.Join(t.stack, ";"), t.Error())
 }
 
-func Tracef(err error, obj ...interface{}) *TraceError {
+func Tracef(err error, obj ...interface{}) *traceError {
 	e := TraceEx(1, err).Format(obj...)
 	return e
 }
 
 // set runtime info to error
-func Trace(err error, info ...interface{}) *TraceError {
+func TraceError(err error, info ...interface{}) *traceError {
 	return TraceEx(1, err, info...)
 }
 
-func TraceIfError(err error, info ...interface{}) error {
-	if err != nil {
-		return Trace(err, info...)
+func Trace(err error, info ...interface{}) error {
+	if err == nil {
+		return nil
 	}
-	return nil
+	return TraceEx(1, err, info...)
 }
 
 func joinInterface(info []interface{}, ch string) string {
@@ -105,7 +112,7 @@ func joinInterface(info []interface{}, ch string) string {
 	return ret.String()
 }
 
-func TraceEx(depth int, err error, info ...interface{}) *TraceError {
+func TraceEx(depth int, err error, info ...interface{}) *traceError {
 	if err == nil {
 		return nil
 	}
@@ -116,13 +123,9 @@ func TraceEx(depth int, err error, info ...interface{}) *TraceError {
 	if len(info) > 0 {
 		stack += "(" + joinInterface(info, ",") + ")"
 	}
-	if te, ok := err.(*TraceError); ok {
+	if te, ok := err.(*traceError); ok {
 		te.stack = append(te.stack, stack)
 		return te
 	}
-	return &TraceError{err, nil, []string{stack}}
-}
-
-func NewTraceError(info ...interface{}) *TraceError {
-	return TraceEx(1, errors.New(fmt.Sprint(info...)))
+	return &traceError{err, nil, []string{stack}}
 }
