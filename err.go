@@ -124,6 +124,12 @@ func TraceEx(depth int, err error, info ...interface{}) *traceError {
 		stack += "(" + joinInterface(info, ",") + ")"
 	}
 	if te, ok := err.(*traceError); ok {
+		if te.stack == nil { // define
+			return &traceError{
+				err:   te.error,
+				stack: []string{stack},
+			}
+		}
 		te.stack = append(te.stack, stack)
 		return te
 	}
