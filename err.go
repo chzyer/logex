@@ -126,7 +126,7 @@ func TraceEx(depth int, err error, info ...interface{}) *traceError {
 	if te, ok := err.(*traceError); ok {
 		if te.stack == nil { // define
 			return &traceError{
-				err:   te.error,
+				error: te.error,
 				stack: []string{stack},
 			}
 		}
