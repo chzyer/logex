@@ -38,6 +38,22 @@ type traceError struct {
 	error
 	format []interface{}
 	stack  []string
+	code   *int
+}
+
+func (t *traceError) SetCode(code int) *traceError {
+	if t.stack == nil {
+		t = TraceEx(1, t)
+	}
+	t.code = &code
+	return t
+}
+
+func (t *traceError) GetCode() int {
+	if t.code == nil {
+		return 500
+	}
+	return *t.code
 }
 
 func (t *traceError) Error() string {
@@ -51,6 +67,10 @@ func (t *traceError) Error() string {
 		return t.error.Error()
 	}
 	return fmt.Sprintf(t.error.Error(), t.format...)
+}
+
+func (t *traceError) Trace(info ...interface{}) *traceError {
+	return TraceEx(1, t, info...)
 }
 
 func (t *traceError) Follow(err error) *traceError {
@@ -67,14 +87,11 @@ func (t *traceError) Follow(err error) *traceError {
 }
 
 func (t *traceError) Format(obj ...interface{}) *traceError {
-	if t == nil {
-		return nil
+	if t.stack == nil {
+		t = TraceEx(1, t)
 	}
 	t.format = obj
-	if t.stack != nil {
-		return t
-	}
-	return TraceEx(1, t)
+	return t
 }
 
 func (t *traceError) StackError() string {
@@ -136,5 +153,5 @@ func TraceEx(depth int, err error, info ...interface{}) *traceError {
 		te.stack = append(te.stack, stack)
 		return te
 	}
-	return &traceError{err, nil, []string{stack}}
+	return &traceError{err, nil, []string{stack}, nil}
 }
