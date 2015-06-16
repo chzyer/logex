@@ -71,7 +71,10 @@ func (t *traceError) Format(obj ...interface{}) *traceError {
 		return nil
 	}
 	t.format = obj
-	return t
+	if t.stack != nil {
+		return t
+	}
+	return TraceEx(1, t)
 }
 
 func (t *traceError) StackError() string {
