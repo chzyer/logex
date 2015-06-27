@@ -39,6 +39,7 @@ var (
 	Infof      = std.Infof
 	Info       = std.Info
 	Debug      = std.Debug
+	Debugf     = std.Debugf
 	Error      = std.Error
 	Errorf     = std.Errorf
 	Warn       = std.Warn
