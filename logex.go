@@ -91,6 +91,7 @@ func color(col, s string) string {
 func init() {
 	if os.Getenv("DEBUG") != "" {
 		DebugLevel = 0
+		ERROR = color("32", ERROR)
 	}
 }
 
