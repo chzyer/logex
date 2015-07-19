@@ -24,6 +24,15 @@ func NewErrorf(format string, info ...interface{}) *traceError {
 	return TraceEx(1, fmt.Errorf(format, info...))
 }
 
+func EqualAny(e error, es []error) bool {
+	for i := 0; i < len(es); i++ {
+		if Equal(e, es[i]) {
+			return true
+		}
+	}
+	return false
+}
+
 func Equal(e1, e2 error) bool {
 	if e, ok := e1.(*traceError); ok {
 		e1 = e.error
