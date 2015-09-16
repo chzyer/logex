@@ -34,6 +34,7 @@ func NewGoLog(w io.Writer) *goLog.Logger {
 
 var goLogStd = goLog.New(os.Stderr, "", goLog.LstdFlags)
 var std = NewLogger(1)
+var ShowCode = true
 var (
 	Println    = std.Println
 	Infof      = std.Infof
@@ -221,6 +222,9 @@ func (l Logger) Output(calldepth int, s string) error {
 }
 
 func (l Logger) makePrefix(calldepth int) string {
+	if !ShowCode {
+		return ""
+	}
 	pc, f, line, _ := runtime.Caller(calldepth)
 	name := runtime.FuncForPC(pc).Name()
 	name = path.Base(name) // only use package.funcname
@@ -246,6 +250,9 @@ func sprintf(f string, o []interface{}) string {
 }
 
 func decodeTraceError(o []interface{}) {
+	if ShowCode {
+		return
+	}
 	for idx, obj := range o {
 		if te, ok := obj.(*traceError); ok {
 			o[idx] = te.StackError()
