@@ -250,7 +250,7 @@ func sprintf(f string, o []interface{}) string {
 }
 
 func decodeTraceError(o []interface{}) {
-	if ShowCode {
+	if !ShowCode {
 		return
 	}
 	for idx, obj := range o {
