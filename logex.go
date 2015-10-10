@@ -249,6 +249,16 @@ func sprintf(f string, o []interface{}) string {
 	return fmt.Sprintf(f, o...)
 }
 
+func DecodeError(e error) string {
+	if e == nil {
+		return ""
+	}
+	if e1, ok := e.(*traceError); ok {
+		return e1.StackError()
+	}
+	return e.Error()
+}
+
 func decodeTraceError(o []interface{}) {
 	if !ShowCode {
 		return
