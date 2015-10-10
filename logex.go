@@ -128,7 +128,7 @@ func (l Logger) Printf(layout string, o ...interface{}) {
 
 // just println
 func (l Logger) Println(o ...interface{}) {
-	l.Output(2, sprint(o))
+	l.Output(2, " "+sprint(o))
 }
 
 func (l Logger) Info(o ...interface{}) {
