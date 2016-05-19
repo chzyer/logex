@@ -240,6 +240,14 @@ func (l Logger) makePrefix(calldepth int) string {
 	return "[" + strings.Join(tags, "][") + "]"
 }
 
+func Sprint(o ...interface{}) string {
+	return sprint(o)
+}
+
+func Sprintf(f string, o ...interface{}) string {
+	return sprintf(f, o)
+}
+
 func sprint(o []interface{}) string {
 	decodeTraceError(o)
 	return joinInterface(o, " ")

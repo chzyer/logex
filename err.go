@@ -17,11 +17,11 @@ func Define(info string) *traceError {
 }
 
 func NewError(info ...interface{}) *traceError {
-	return TraceEx(1, errors.New(fmt.Sprint(info...)))
+	return TraceEx(1, errors.New(sprint(info)))
 }
 
 func NewErrorf(format string, info ...interface{}) *traceError {
-	return TraceEx(1, fmt.Errorf(format, info...))
+	return TraceEx(1, errors.New(sprintf(format, info)))
 }
 
 func EqualAny(e error, es []error) bool {
