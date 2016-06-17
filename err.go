@@ -113,6 +113,22 @@ func (t *traceError) StackError() string {
 	return fmt.Sprintf("[%s] %s", strings.Join(t.stack, ";"), t.Error())
 }
 
+func Tracefmt(layout string, objs ...interface{}) error {
+	var teInfo *traceError
+	for idx, obj := range objs {
+		if te, ok := obj.(*traceError); ok {
+			teInfo = te
+			objs[idx] = te.Error()
+		}
+	}
+	return &traceError{
+		error:  fmt.Errorf(layout, objs...),
+		format: teInfo.format,
+		stack:  teInfo.stack,
+		code:   teInfo.code,
+	}
+}
+
 func Tracef(err error, obj ...interface{}) *traceError {
 	e := TraceEx(1, err).Format(obj...)
 	return e

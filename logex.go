@@ -132,9 +132,17 @@ func (l Logger) Println(o ...interface{}) {
 }
 
 func (l Logger) Info(o ...interface{}) {
+	if DebugLevel > 1 {
+		return
+	}
+
 	l.Output(2, INFO+sprint(o))
 }
 func (l Logger) Infof(f string, o ...interface{}) {
+	if DebugLevel > 1 {
+		return
+	}
+
 	l.Output(2, INFO+sprintf(f, o))
 }
 
