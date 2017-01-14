@@ -1,6 +1,6 @@
 Logex
 =======
-[![Build Status](https://travis-ci.org/go-logex/logex.svg?branch=master)](https://travis-ci.org/go-logex/logex)
+[![Build Status](https://travis-ci.org/chzyer/logex.svg?branch=master)](https://travis-ci.org/chzyer/logex)
 [![GoDoc](https://godoc.org/gopkg.in/logex.v1?status.svg)](https://godoc.org/gopkg.in/logex.v1)
 [![Join the chat at https://gitter.im/go-logex/logex](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/go-logex/logex?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
