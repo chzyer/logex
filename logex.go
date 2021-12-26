@@ -33,7 +33,7 @@ func NewGoLog(w io.Writer) *goLog.Logger {
 }
 
 var goLogStd = goLog.New(os.Stderr, "", goLog.LstdFlags)
-var std = NewLogger(1)
+var std = NewLogger(0)
 var ShowCode = true
 var (
 	Println    = std.Println
