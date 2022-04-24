@@ -1,8 +1,7 @@
 Logex
 =======
 [![Build Status](https://travis-ci.org/chzyer/logex.svg?branch=master)](https://travis-ci.org/chzyer/logex)
-[![GoDoc](https://godoc.org/gopkg.in/logex.v1?status.svg)](https://godoc.org/gopkg.in/logex.v1)
-[![Join the chat at https://gitter.im/go-logex/logex](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/go-logex/logex?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GoDoc](https://godoc.org/github.com/chzyer/logex?status.svg)](https://godoc.org/github.com/chzyer/logex)
 
 An golang log lib, supports tracing and level, wrap by standard log lib
 
@@ -10,12 +9,12 @@ How To Get
 =======
 shell
 ```
-go get gopkg.in/logex.v1
+go get github.com/chzyer/logex
 ```
 
 source code
 ```{go}
-import "gopkg.in/logex.v1" // package name is logex
+import "github.com/chzyer/logex" // package name is logex
 
 func main() {
   logex.Info("Hello!")
@@ -26,7 +25,7 @@ Level
 =======
 
 ```{go}
-import "gopkg.in/logex.v1"
+import "github.com/chzyer/logex"
 
 func main() {
   logex.Println("")
@@ -71,7 +70,7 @@ All log will attach theirs stack info. Stack Info will shown by an layout, `{pac
 ```{go}
 package main
 
-import "gopkg.in/logex.v1"
+import "github.com/chzyer/logex"
 
 func test() {
 	logex.Pretty("hello")
@@ -95,7 +94,7 @@ You can trace an error if you want.
 package main
 
 import (
-	"gopkg.in/logex.v1"
+	"github.com/chzyer/logex"
 	"os"
 )
 
