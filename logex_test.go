@@ -46,9 +46,9 @@ func TestLogex(t *testing.T) {
 
 	except := []string{
 		".test:logex_test.go:19]aa",
-		".test:logex_test.go:20][INFO] b",
+		".TestLogex:logex_test.go:42][INFO] b",
 		".test:logex_test.go:21][INFO] c",
-		".test:logex_test.go:22][ERROR] ec",
+		".TestLogex:logex_test.go:42][ERROR] ec",
 		".(*S).hello:logex_test.go:11][WARN] warn in hello",
 	}
 
